@@ -75,4 +75,7 @@ int main()
 
      */
 
+    sil::Image pixelSorted = pixelSort(logo);
+    pixelSorted.save("output/pixelSorted.png");
+
 }

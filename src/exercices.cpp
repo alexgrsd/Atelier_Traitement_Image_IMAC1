@@ -189,9 +189,7 @@ sil::Image rotateImage(sil::Image const &inputImage)
     {
         for (int j = 0; j < height; j++)
         {
-            output.pixel(height - 1 - j, i).r = inputImage.pixel(i, j).r;
-            output.pixel(height - 1 - j, i).g = inputImage.pixel(i, j).g;
-            output.pixel(height - 1 - j, i).b = inputImage.pixel(i, j).b;
+            output.pixel(height - 1 - j, i) = inputImage.pixel(i, j);
         }
     }
     return output;
@@ -371,7 +369,69 @@ sil::Image glitchEffect(sil::Image const &inputImage)
     return output;
 }
 
-// trie les pixels de chaque ligne dans un tableau 2D
+// trie les pixels de chaque ligne dans un tableau 2D (bon ici ca servira a rien)
+glm::vec3 *sortPixelArray(glm::vec3 *pixelArray, int width, int height)
+{
+    for (int j = 0; j < height; j++)
+    {
+        // tri a bulle
+        for (int pass = 0; pass < width - 1; pass++)
+        {
+            for (int i = 0; i < width - 1 - pass; i++)
+            {
+                float lum1 = 0.3 * pixelArray[j * width + i].r + 0.59 * pixelArray[j * width + i].g + 0.11 * pixelArray[j * width + i].b;
+                float lum2 = 0.3 * pixelArray[j * width + i + 1].r + 0.59 * pixelArray[j * width + i + 1].g + 0.11 * pixelArray[j * width + i + 1].b;
+                if (lum1 > lum2)
+                {
+                    std::swap(pixelArray[j * width + i], pixelArray[j * width + i + 1]);
+                }
+            }
+        }
+    }
+    return pixelArray;
+}
+
+// pixel sort effect
+sil::Image pixelSort(sil::Image const &inputImage)
+{
+    int height = inputImage.height();
+    int width = inputImage.width();
+    sil::Image output = inputImage;
+
+    int nb_lines = 250;
+    for (int i = 0; i < nb_lines; i++)
+    {
+
+        // on pick une ligne aléatoire
+        int line_x = random_int(0, height - 1);
+        int line_y = random_int(0, width - 1);
+
+        int length_line = 50;
+        if (line_x + length_line > width)
+        {
+            length_line = width - line_x;
+        } // pour éviter les out of bound
+
+        std::vector<glm::vec3> pixelArray;
+        // on remplit le tableau avec les pixels de la ligne
+        for (int x = 0; x < length_line; x++)
+        {
+            pixelArray.push_back(output.pixel(line_x + x, line_y));
+        }
+
+        for (glm::vec3 &pixel : pixelArray)
+        {
+            sortPixelArray(&pixel, length_line, 1);
+        }
+
+        // on remet les pixels triés dans l'image
+        for (int x = 0; x < length_line; x++)
+        {
+            output.pixel(line_x + x, line_y) = pixelArray[x];
+        }
+    }
+    return output;
+}
 
 sil::Image fractale()
 {

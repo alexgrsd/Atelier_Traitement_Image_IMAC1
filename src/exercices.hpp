@@ -21,3 +21,4 @@ std::vector<sil::Image> makeCircleGif();
 sil::Image makeMosaic(sil::Image const &inputImage);
 sil::Image pixelize (sil::Image const &inputImage); // fait totalement par erreur
 sil::Image glitchEffect (sil::Image const &inputImage);
+sil::Image pixelSort(sil::Image const &inputImage);
