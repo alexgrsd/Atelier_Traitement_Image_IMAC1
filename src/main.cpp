@@ -7,7 +7,7 @@ int main()
     sil::Image photo{"images/photo.jpg"};
     sil::Image photoFaibleContraste{"images/photo_faible_contraste.jpg"};
 
-    /*
+    
     sil::Image onlyGreen = onlyKeepGreen(logo);
     onlyGreen.save("output/onlyGreen.png");
 
@@ -30,7 +30,7 @@ int main()
     
 
 
-    sil::Image mirrored = mirrorImage(logo);
+    sil::Image mirrored = mirrorImagVertical(logo);
     mirrored.save("output/mirror.png");
 
 
@@ -73,9 +73,13 @@ int main()
     glitched.save("output/glitched.png");
 
 
-     */
+     
 
     sil::Image pixelSorted = pixelSort(logo);
     pixelSorted.save("output/pixelSorted.png");
+
+
+    sil::Image mosaicMirrored = makeMosaicMirrored(logo);
+    mosaicMirrored.save("output/mosaicMirrored.png");
 
 }

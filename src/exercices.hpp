@@ -11,7 +11,8 @@ sil::Image exchangeCanals(sil::Image const& inputImage);
 sil::Image toGrayScale(sil::Image const& inputImage);
 sil::Image invertImage(sil::Image const& inputImage);
 sil::Image degrade();
-sil::Image mirrorImage(sil::Image const& inputImage);
+sil::Image mirrorImageHorizontal(sil::Image const& inputImage);
+sil::Image mirrorImagVertical(sil::Image const& inputImage);
 sil::Image addNoise(sil::Image const& inputImage);
 sil::Image rotateImage(sil::Image const &inputImage);
 sil::Image rgbShift(sil::Image const &inputImage);
@@ -22,3 +23,4 @@ sil::Image makeMosaic(sil::Image const &inputImage);
 sil::Image pixelize (sil::Image const &inputImage); // fait totalement par erreur
 sil::Image glitchEffect (sil::Image const &inputImage);
 sil::Image pixelSort(sil::Image const &inputImage);
+sil::Image makeMosaicMirrored(sil::Image const &inputImage);

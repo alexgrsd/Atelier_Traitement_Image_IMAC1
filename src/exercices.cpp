@@ -133,7 +133,7 @@ sil::Image degrade()
     return output;
 }
 
-sil::Image mirrorImage(sil::Image const &inputImage)
+sil::Image mirrorImagVertical(sil::Image const &inputImage)
 {
     int height = inputImage.height();
     int width = inputImage.width();
@@ -144,6 +144,22 @@ sil::Image mirrorImage(sil::Image const &inputImage)
         for (int j = 0; j < height; j++)
         {
             output.pixel(width - i - 1, j) = inputImage.pixel(i, j);
+        }
+    }
+    return output;
+}
+
+sil::Image mirrorImageHorizontal(sil::Image const &inputImage)
+{
+    int height = inputImage.height();
+    int width = inputImage.width();
+    sil::Image output{width, height};
+
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            output.pixel(i, height - j - 1) = inputImage.pixel(i, j);
         }
     }
     return output;
@@ -435,6 +451,60 @@ sil::Image pixelSort(sil::Image const &inputImage)
 
 sil::Image fractale()
 {
-    sil::Image output{800, 800};
+    int height = 800;
+    int length = 800;
+    sil::Image output{height, length};
+
+    int max_iteration = 50;
+    float incr = 4/static_cast<float>(height-1);
+
+    for (float i = 0; i <length ; i++){
+        for (float j = 0; j < height; j++){
+            float a = -2 + i * incr;
+            float b = 2 - j * incr;
+            std::complex c(a,b);
+            std::complex z(0,0);
+            for (int iter = 0; iter< max_iteration; iter++){
+                //z = (z*z) + c ;
+                if (std::norm(z) > 4) break;
+            }
+        }
+    }
+
+
+
+    return output;
+}
+
+sil::Image makeMosaicMirrored(sil::Image const &inputImage)
+{
+    int height = inputImage.height();
+    int width = inputImage.width();
+    int size = 5;
+    sil::Image output{width * size, height * size};
+
+    for (int i = 0; i < width * size; i++)
+    {
+        for (int j = 0; j < height * size; j++)
+        {
+            if (i / width % 2 == 0 && j / height % 2 == 0)
+            {
+                output.pixel(i, j) = inputImage.pixel(i % width, j % height);
+            }
+            if (i / width % 2 == 1 && j / height % 2 == 0)
+            {
+                output.pixel(i, j) = inputImage.pixel(width - 1 - (i % width), j % height);
+            }
+            if (j / height % 2 == 1 && i / width % 2 == 0)
+            {
+                output.pixel(i, j) = inputImage.pixel(i % width, height - 1 - (j % height));
+            }
+            if (j / height % 2 == 1 && i / width % 2 == 1)
+            {
+                output.pixel(i, j) = inputImage.pixel(width - 1 - (i % width), height - 1 - (j % height));
+            }
+        }
+    }
+    
     return output;
 }
