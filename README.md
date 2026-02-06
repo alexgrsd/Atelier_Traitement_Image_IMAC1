@@ -106,6 +106,7 @@ Comme pour la mosaïque, je répète l'image sur une grille, mais j'inverse une 
 ### Convolution / Box blur (blur)
 ![blurred](output/blurred.png)
 Pour le flou, j'ai appliqué une convolution en prenant, pour chaque pixel (hors bords), la moyenne des pixels dans un carré autour de lui, ce qui lisse l'image.
+Elle est très incompléte mais elle est la c'est déja ca
 
 ### Fractale (fractal)
-*(pas fonctionnel pour l'instant)*  
+Elle fonctionne pas mais il y a un début de code 😔
