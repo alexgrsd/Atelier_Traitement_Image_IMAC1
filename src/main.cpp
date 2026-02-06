@@ -28,9 +28,11 @@ int main()
     degradeImage.save("output/degrade.png");
     
 
+    sil::Image horizontalMirrored = mirrorImageHorizontal(logo);
+    horizontalMirrored.save("output/horizontalMmirror.png");
 
-    sil::Image mirrored = mirrorImagVertical(logo);
-    mirrored.save("output/mirror.png");
+    sil::Image verticalMirrored = mirrorImagVertical(logo);
+    verticalMirrored.save("output/verticalMmirror.png");
 
 
     sil::Image noised = addNoise(logo);

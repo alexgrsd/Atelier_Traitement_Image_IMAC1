@@ -133,7 +133,7 @@ sil::Image degrade()
     return output;
 }
 
-sil::Image mirrorImagVertical(sil::Image const &inputImage)
+sil::Image mirrorImageHorizontal(sil::Image const &inputImage)
 {
     int height = inputImage.height();
     int width = inputImage.width();
@@ -149,7 +149,7 @@ sil::Image mirrorImagVertical(sil::Image const &inputImage)
     return output;
 }
 
-sil::Image mirrorImageHorizontal(sil::Image const &inputImage)
+sil::Image mirrorImagVertical(sil::Image const &inputImage)
 {
     int height = inputImage.height();
     int width = inputImage.width();
