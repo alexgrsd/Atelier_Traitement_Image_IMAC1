@@ -7,7 +7,6 @@ int main()
     sil::Image photo{"images/photo.jpg"};
     sil::Image photoFaibleContraste{"images/photo_faible_contraste.jpg"};
 
-    
     sil::Image onlyGreen = onlyKeepGreen(logo);
     onlyGreen.save("output/onlyGreen.png");
 
@@ -81,5 +80,14 @@ int main()
 
     sil::Image mosaicMirrored = makeMosaicMirrored(logo);
     mosaicMirrored.save("output/mosaicMirrored.png");
+
+    sil::Image blurred = convolution(logo);
+    blurred.save("output/blurred.png");
+
+    sil::Image frac = fractale();
+    frac.save("output/fractale.png");
+
+    sil::Image pixeled = pixelize(logo);
+    pixeled.save("output/pixeled.png");
 
 }

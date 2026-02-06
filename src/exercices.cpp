@@ -385,69 +385,57 @@ sil::Image glitchEffect(sil::Image const &inputImage)
     return output;
 }
 
-// trie les pixels de chaque ligne dans un tableau 2D (bon ici ca servira a rien)
-glm::vec3 *sortPixelArray(glm::vec3 *pixelArray, int width, int height)
+#include <algorithm>
+
+static float luminance(const glm::vec3& p)
 {
-    for (int j = 0; j < height; j++)
-    {
-        // tri a bulle
-        for (int pass = 0; pass < width - 1; pass++)
-        {
-            for (int i = 0; i < width - 1 - pass; i++)
-            {
-                float lum1 = 0.3 * pixelArray[j * width + i].r + 0.59 * pixelArray[j * width + i].g + 0.11 * pixelArray[j * width + i].b;
-                float lum2 = 0.3 * pixelArray[j * width + i + 1].r + 0.59 * pixelArray[j * width + i + 1].g + 0.11 * pixelArray[j * width + i + 1].b;
-                if (lum1 > lum2)
-                {
-                    std::swap(pixelArray[j * width + i], pixelArray[j * width + i + 1]);
-                }
-            }
-        }
-    }
-    return pixelArray;
+    return 0.3f * p.r + 0.59f * p.g + 0.11f * p.b;
 }
 
-// pixel sort effect
-sil::Image pixelSort(sil::Image const &inputImage)
+void sortPixelArray(glm::vec3* pixelArray, int length)
+{
+    std::sort(pixelArray, pixelArray + length,
+              [](const glm::vec3& a, const glm::vec3& b) {
+                  return luminance(a) < luminance(b);
+              });
+}
+
+sil::Image pixelSort(const sil::Image& inputImage)
 {
     int height = inputImage.height();
-    int width = inputImage.width();
+    int width  = inputImage.width();
     sil::Image output = inputImage;
 
     int nb_lines = 250;
-    for (int i = 0; i < nb_lines; i++)
+    int length_line = 50;
+
+    if (width <= 0 || height <= 0) return output;
+    length_line = std::min(length_line, width);
+
+    for (int k = 0; k < nb_lines; ++k)
     {
+        int y = random_int(0, height - 1);
+        int x0 = random_int(0, width - 1);
 
-        // on pick une ligne aléatoire
-        int line_x = random_int(0, height - 1);
-        int line_y = random_int(0, width - 1);
-
-        int length_line = 50;
-        if (line_x + length_line > width)
-        {
-            length_line = width - line_x;
-        } // pour éviter les out of bound
+        if (x0 + length_line > width)
+            x0 = width - length_line;
 
         std::vector<glm::vec3> pixelArray;
-        // on remplit le tableau avec les pixels de la ligne
-        for (int x = 0; x < length_line; x++)
-        {
-            pixelArray.push_back(output.pixel(line_x + x, line_y));
-        }
+        pixelArray.reserve(length_line);
 
-        for (glm::vec3 &pixel : pixelArray)
-        {
-            sortPixelArray(&pixel, length_line, 1);
-        }
+        for (int x = 0; x < length_line; ++x)
+            pixelArray.push_back(output.pixel(x0 + x, y));
 
-        // on remet les pixels triés dans l'image
-        for (int x = 0; x < length_line; x++)
-        {
-            output.pixel(line_x + x, line_y) = pixelArray[x];
-        }
+        // ici on passe un VRAI buffer contigu + sa taille
+        sortPixelArray(pixelArray.data(), (int)pixelArray.size());
+
+        for (int x = 0; x < length_line; ++x)
+            output.pixel(x0 + x, y) = pixelArray[x];
     }
+
     return output;
 }
+
 
 sil::Image fractale()
 {
@@ -456,22 +444,24 @@ sil::Image fractale()
     sil::Image output{height, length};
 
     int max_iteration = 50;
-    float incr = 4/static_cast<float>(height-1);
+    float incr = 4 / static_cast<float>(height - 1);
 
-    for (float i = 0; i <length ; i++){
-        for (float j = 0; j < height; j++){
+    for (float i = 0; i < length; i++)
+    {
+        for (float j = 0; j < height; j++)
+        {
             float a = -2 + i * incr;
             float b = 2 - j * incr;
-            std::complex c(a,b);
-            std::complex z(0,0);
-            for (int iter = 0; iter< max_iteration; iter++){
-                //z = (z*z) + c ;
-                if (std::norm(z) > 4) break;
+            std::complex c(a, b);
+            std::complex z(0, 0);
+            for (int iter = 0; iter < max_iteration; iter++)
+            {
+                // z = (z*z) + c ;
+                if (std::norm(z) > 4)
+                    break;
             }
         }
     }
-
-
 
     return output;
 }
@@ -505,6 +495,56 @@ sil::Image makeMosaicMirrored(sil::Image const &inputImage)
             }
         }
     }
-    
+
+    return output;
+}
+
+// just a basic box blur for now
+glm::vec3 meanOfPixels(std::vector<glm::vec3> const &vec)
+{
+    int length = vec.size() ;
+    float r_mean{0};
+    float g_mean{0};
+    float b_mean{0}; 
+
+    for (int i = 0; i<length; i++){
+        r_mean += vec[i].r;
+        g_mean += vec[i].g;
+        b_mean += vec[i].b;
+    }
+    r_mean /= length;
+    g_mean /= length; 
+    b_mean /= length;
+    glm::vec3 out {r_mean,g_mean,b_mean};
+    return out;
+}
+
+sil::Image convolution(const sil::Image& inputImage)
+{
+    int blurSize = 9;                
+    int r = blurSize / 2;             
+    int height = inputImage.height();
+    int width  = inputImage.width();
+
+    sil::Image output{width, height};
+
+    for (int i = r; i < width - r; ++i)
+    {
+        for (int j = r; j < height - r; ++j)
+        {
+            std::vector<glm::vec3> vecPix;
+            vecPix.reserve(blurSize * blurSize);
+
+            for (int x = -r; x <= r; ++x)
+            {
+                for (int y = -r; y <= r; ++y)
+                {
+                    vecPix.push_back(inputImage.pixel(i + x, j + y));
+                }
+            }
+
+            output.pixel(i, j) = meanOfPixels(vecPix);
+        }
+    }
     return output;
 }

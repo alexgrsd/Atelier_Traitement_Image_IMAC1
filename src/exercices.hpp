@@ -20,7 +20,10 @@ sil::Image changeLuminosity(sil::Image const &inputImage, bool dir);
 sil::Image makeCircle(int thickness);
 std::vector<sil::Image> makeCircleGif();
 sil::Image makeMosaic(sil::Image const &inputImage);
-sil::Image pixelize (sil::Image const &inputImage); // fait totalement par erreur
+sil::Image pixelize (sil::Image const &inputImage);
 sil::Image glitchEffect (sil::Image const &inputImage);
 sil::Image pixelSort(sil::Image const &inputImage);
 sil::Image makeMosaicMirrored(sil::Image const &inputImage);
+sil::Image convolution(sil::Image const &inputImage);
+sil::Image fractale(); // not working
+sil::Image pixelize(sil::Image const &inputImage);
