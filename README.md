@@ -56,7 +56,7 @@ Pour modifier la luminosité, j'applique une correction gamma en utilisant `pow(
 J'ai calculé la distance de chaque pixel au centre de l'image, et j'affiche le pixel en blanc si cette distance est proche du rayon voulu (ce qui dessine un cercle avec une épaisseur).
 
 ### GIF de cercle (circle animation)
-*(non inclus : les frames sont dans `output/gifCircle/` et le gif final n'est pas encore généré)*  
+![circleGif](output/circleGif.gif)
 Pour l'animation, j'ai généré plusieurs images en décalant progressivement la position du cercle à chaque étape, puis j'ai sauvegardé chaque frame.
 
 ### Mosaïque (mosaic)
