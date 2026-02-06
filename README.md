@@ -1,4 +1,28 @@
-# Workshop prog S1 - Alexandre Grosdidier 
+# Workshop prog S1 - Alexandre Grosdidier
+
+- [Workshop prog S1 - Alexandre Grosdidier](#workshop-prog-s1---alexandre-grosdidier)
+  - [Objectif](#objectif)
+  - [Effets réalisés](#effets-réalisés)
+    - [Conserver uniquement le vert (only keep green)](#conserver-uniquement-le-vert-only-keep-green)
+    - [Échange des canaux (swap RGB)](#échange-des-canaux-swap-rgb)
+    - [Niveaux de gris (grayscale)](#niveaux-de-gris-grayscale)
+    - [Inversion des couleurs (invert)](#inversion-des-couleurs-invert)
+    - [Dégradé (gradient)](#dégradé-gradient)
+    - [Miroir horizontal (flip horizontal)](#miroir-horizontal-flip-horizontal)
+    - [Miroir vertical (flip vertical)](#miroir-vertical-flip-vertical)
+    - [Ajout de bruit (noise)](#ajout-de-bruit-noise)
+    - [Rotation 90° (rotate)](#rotation-90-rotate)
+    - [Décalage RGB (RGB shift)](#décalage-rgb-rgb-shift)
+    - [Changement de luminosité (brightness)](#changement-de-luminosité-brightness)
+    - [Cercle (circle)](#cercle-circle)
+    - [GIF de cercle (circle animation)](#gif-de-cercle-circle-animation)
+    - [Mosaïque (mosaic)](#mosaïque-mosaic)
+    - [Pixelisation (pixelize)](#pixelisation-pixelize)
+    - [Effet glitch (glitch)](#effet-glitch-glitch)
+    - [Pixel sort (pixel sorting)](#pixel-sort-pixel-sorting)
+    - [Mosaïque miroir (mirrored mosaic)](#mosaïque-miroir-mirrored-mosaic)
+    - [Convolution / Box blur (blur)](#convolution--box-blur-blur)
+    - [Fractale (fractal)](#fractale-fractal)
 
 ## Objectif 
 
@@ -19,7 +43,7 @@ Ici j'ai échangé le channel rouge et bleu en utilisant la fonction swap
 Pour chaque pixel, j'ai calculé la luminance et mit les channel r,g et b a cette luminance, donnant un niveau de gri
 
 ### Inversion des couleurs (invert)
-![inverted](output/inverted.png)
+![inverted](output/inverted.png)- [Workshop prog S1 - Alexandre Grosdidier](#workshop-prog-s1---alexandre-grosdidier)
 pour chaque channel de chaque pixel, j'ai fait la différence entre 1 et ce channel. Je transforme le 1 en 0 et inversement, inversant donc les couleurs
 
 ### Dégradé (gradient)
