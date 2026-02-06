@@ -27,11 +27,11 @@ pour chaque channel de chaque pixel, j'ai fait la différence entre 1 et ce chan
 Pour faire le dégradé, j'ai créé une image vide puis j'ai fait varier la luminance en fonction de la position en x, ce qui donne un dégradé de gauche à droite.
 
 ### Miroir horizontal (flip horizontal)
-![horizontalMirror](output/horizontalMirror.png)
+![horizontalMirror](output/horizontalMirrored.png)
 Pour chaque pixel, j'ai copié le pixel situé à la position symétrique sur l'axe horizontal (en inversant la coordonnée y).
 
 ### Miroir vertical (flip vertical)
-![verticalMirror](output/vertical.png)
+![verticalMirror](output/verticalMirrored.png)
 Pour chaque pixel, j'ai copié le pixel situé à la position symétrique sur l'axe vertical (en inversant la coordonnée x).
 
 ### Ajout de bruit (noise)
@@ -85,8 +85,3 @@ Pour le flou, j'ai appliqué une convolution en prenant, pour chaque pixel (hors
 
 ### Fractale (fractal)
 *(pas fonctionnel pour l'instant)*  
-J'ai commencé à parcourir le plan complexe pixel par pixel, mais l'itération de la fractale n'est pas terminée (la mise à jour de z et l'écriture des pixels dans l'image manque).
-
-### Pixelisation (pixelize) *(doublon dans le .hpp)*
-![pixeled](output/pixeled.png)
-Même effet que plus haut, la fonction est déclarée deux fois dans le `.hpp`.
